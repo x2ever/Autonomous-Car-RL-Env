@@ -2,6 +2,7 @@
 import pygame, math, sys, level2, time
 from pygame.locals import *
 
+
 def level1():
     pygame.init()
     screen = pygame.display.set_mode((1024, 768))
@@ -115,7 +116,7 @@ def level1():
             elif event.key == K_ESCAPE: sys.exit(0)    
     
         #COUNTDOWN TIMER
-        seconds = round((20 - dt),2)
+        seconds = round((20 - dt), 2)
         if win_condition == None:
             timer_text = font.render(str(seconds), True, (255,255,0))
             if seconds <= 0:
@@ -161,5 +162,6 @@ def level1():
         screen.blit(win_text, (250, 700))
         screen.blit(loss_text, (250, 700))
         pygame.display.flip()
+        # print(type(pygame.surfarray.array3d(screen)), pygame.surfarray.array3d(screen).shape)
 
 
