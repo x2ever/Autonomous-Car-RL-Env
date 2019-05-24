@@ -1,15 +1,20 @@
+import pygame
+from pygame.locals import *
 class Control:
     def __init__(self):
-        self.instructions = []
+        self.up_event = pygame.event.Event(pygame.USEREVENT, {'key': K_UP})
+        self.down_event = pygame.event.Event(pygame.USEREVENT, {'key': K_DOWN})
+        self.right_event = pygame.event.Event(pygame.USEREVENT, {'key': K_RIGHT})
+        self.left_event = pygame.event.Event(pygame.USEREVENT, {'key': K_LEFT})
     
     def up(self):
-        pass
+        pygame.event.post(self.up_event)
     
     def down(self):
-        pass
+        pygame.event.post(self.down_event)
 
     def right(self):
-        pass
+        pygame.event.post(self.right_event)
     
     def left(self):
-        pass
+        pygame.event.post(self.left_event)
