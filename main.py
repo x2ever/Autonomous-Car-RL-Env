@@ -7,6 +7,7 @@ from Car import CarSprite
 from Trophy import TrophySprite
 from LiDAR import LiDAR
 from Brain import Brain
+from Control import Control
 
 
 def main():
@@ -21,8 +22,9 @@ def main():
     ]
     car = CarSprite('images/car.png', (50, 700))
     lidar = LiDAR()
-    brain = Brain(lidar, control)
-    game = Game(walls, trophies, car, lidar, control)
+    control = Control()
+    brain = Brain(lidar, control) # Get LiDAR data, Set Control data
+    game = Game(walls, trophies, car, lidar, control) # Get Control data Set LiDAR data
     game.run()
     while True:
         time.sleep(0.1)
