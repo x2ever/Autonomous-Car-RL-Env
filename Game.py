@@ -8,11 +8,11 @@ import copy
 
 
 class Game:
-    def __init__(self, walls, trophies, car, lidar):
-        self.init_args = [copy.copy(walls), copy.copy(trophies), copy.copy(car)]
+    def __init__(self, walls, trophies, car, database):
+        self.init_args = [copy.copy(walls), copy.copy(trophies), copy.copy(car), database]
         pygame.init()
         self.car = car
-        self.screen = pygame.display.set_mode((1024, 768))
+        self.screen = pygame.display.set_mode((1024, 768)) 
         self.clock = pygame.time.Clock()
         font = pygame.font.Font(None, 75)
         self.win_font = pygame.font.Font(None, 50)
@@ -26,10 +26,9 @@ class Game:
         self.car_group = pygame.sprite.RenderPlain(car)
         self.rect = self.screen.get_rect()
         self.stop = False
-        self.lidar = lidar
-        self.lidar_data = None
+        self.database = database
 
-    def run(self):
+    def run(self, auto = False):
         while True:
             #USER INPUT
             self.t1 = time.time()
@@ -38,20 +37,45 @@ class Game:
             deltat = self.clock.tick(30)
             seconds = round(dt, 2)
             for event in pygame.event.get():
-                if not hasattr(event, 'key'): continue
-                down = event.type == KEYDOWN 
-                if self.win_condition == None: 
-                    if event.key == K_RIGHT: self.car.k_right = down * -5 
-                    elif event.key == K_LEFT: self.car.k_left = down * 5
-                    elif event.key == K_UP: self.car.k_up = down * 2
-                    elif event.key == K_DOWN: self.car.k_down = down * -2 
-                    elif event.key == K_ESCAPE: sys.exit(0) # quit the game
-                elif self.win_condition == True and event.key == K_SPACE: print(seconds); self.stop = True
-                elif self.win_condition == False and event.key == K_SPACE:
-                    print(seconds)
-                    self.again()
-                    t0 = t1
-                elif event.key == K_ESCAPE: sys.exit(0)    
+                if auto:
+                    if not hasattr(event, 'key'): continue
+                    down = event.type == USEREVENT
+                    if self.win_condition == None: 
+                        if event.key == K_RIGHT: self.car.k_right = down * -5 
+                        elif event.key == K_LEFT: self.car.k_left = down * 5
+                        elif event.key == K_UP: self.car.k_up = down * 2
+                        elif event.key == K_DOWN: self.car.k_down = down * -2 
+                        elif event.key == K_ESCAPE: self.database.stop = True
+                    elif self.win_condition == True and event.key == K_SPACE:
+                        print(seconds)
+                        self.database.stop = True
+                    elif self.win_condition == False and event.key == K_SPACE:
+                        print(seconds)
+                        self.again() 
+                        self.t0 = self.t1
+                    elif event.key == K_ESCAPE:
+                        self.database.stop = True
+                else:
+                    if not hasattr(event, 'key'): continue
+                    down = event.type == KEYDOWN 
+                    if self.win_condition == None: 
+                        if event.key == K_RIGHT: self.car.k_right = down * -5
+                        elif event.key == K_LEFT: self.car.k_left = down * 5
+                        elif event.key == K_UP: self.car.k_up = down * 2
+                        elif event.key == K_DOWN: self.car.k_down = down * -2 
+                        elif event.key == K_ESCAPE: self.database.stop = True
+                    elif self.win_condition == True and event.key == K_SPACE:
+                        print(seconds)
+                        self.database.stop = True
+                    elif self.win_condition == False and event.key == K_SPACE:
+                        print(seconds)
+                        self.again() 
+                        self.t0 = self.t1
+                    elif event.key == K_ESCAPE:
+                        self.database.stop = True
+            
+            if self.database.stop:
+                break
                 
             #RENDERING
             self.screen.fill((0,0,0))
@@ -76,7 +100,7 @@ class Game:
                 pygame.mixer.music.play(loops=0, start=0.0)
                 self.win_text = self.win_font.render('Press Space to Advance', True, (0,255,0))
                 if self.win_condition == True:
-                    car.k_right = -5
+                    self.car.k_right = -5
                     
 
             self.wall_group.update(collisions)
@@ -87,15 +111,13 @@ class Game:
             self.screen.blit(self.win_text, (250, 700))
             self.screen.blit(self.loss_text, (250, 700))
             pygame.display.flip()
-
-            self.lidar.data = self.screen
     
     def again(self):
         self.__init__(*self.init_args)
         self.run()
 
     def make_lidar_data(self):
-        self.lidar.get_data(self.lidar_data)
+        self.database.lidar.data = None
 
 if __name__ == "__main__":
     walls = [
