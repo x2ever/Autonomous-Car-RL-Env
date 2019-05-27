@@ -39,13 +39,13 @@ SAT
 
 Participants receive virtual LiDAR and GPS data.
 
-![LiDAR_preview.png](/images/LiDAR_preview.png)
+![LiDAR_preview.png](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/LiDAR_preview.png)
 
 #### Course
 
 If the participants complete the route in the shortest time, they will win.
 
-![level1](/images/level1.png)
+![level1](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/level1.png)
 
 
 ### Usage
