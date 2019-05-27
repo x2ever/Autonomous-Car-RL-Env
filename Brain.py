@@ -26,6 +26,13 @@ class Brain:
 
             # Implement Your Algorithm HERE!!
 
+            # EXAMPLE CODE1: 에라 모르겟다 그냥 속도 2로 유지하면서 오른쪽으로 회전하기 알고리즘
+            self.database.control.right()
+            if self.database.car.speed < 2:
+                self.database.control.up()
+            elif self.database.car.speed > 2:
+                self.database.control.down()
+
             time.sleep(0.01)
             if self.database.stop:
                 break
