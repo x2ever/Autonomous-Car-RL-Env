@@ -33,6 +33,19 @@ __Competition schedule__:
 09:30 ~ 10:00 시상
 ```
 
+### Preview
+
+#### LiDAR
+
+Participants receive virtual LiDAR and GPS data.
+
+![LiDAR_preview.png](/images/LiDAR_preview.png)
+
+#### Course
+
+If the participants complete the route in the shortest time, they will win.
+
+![level1](/images/level1.png)
 
 
 ### Usage
