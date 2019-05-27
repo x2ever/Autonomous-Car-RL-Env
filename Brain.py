@@ -9,7 +9,6 @@ class Brain:
 
     def run(self):
         while True:
-            # Implement Your Algorithm HERE!!
             ''' 
             1. How can i get a lidar data?
                 data = self.database.lidar.data
@@ -24,9 +23,8 @@ class Brain:
                 self.database.car.direction
                 self.database.car.speed
             '''
-            print(self.database.car.speed, self.database.car.direction)
-            self.database.control.up()
-            self.database.control.right()
+
+            # Implement Your Algorithm HERE!!
 
             time.sleep(0.01)
             if self.database.stop:
