@@ -20,13 +20,13 @@ __Summary of Competition__: Implementation of path generation and obstacle avoid
 __Competition schedule__:
 
 ```
-금
+FRI
 17:30 ~ 18:00 Meeting organizer introduction time
 18:00 ~ 19:00 Dinner and social hour
 19:00 ~ 20:00 Pre-training seminar
 20:00 ~       Start Hackathon
 
-토
+SAT
 07:00 ~ 08:00 Breakfast
       ~ 08:30 Submission of results
 09:00 ~ 09:30 Product demonstration and evaluation
@@ -52,14 +52,14 @@ If the participants complete the route in the shortest time, they will win.
 
 #### Auto
 
-Drive with Keyboard
+Drive with your own algorithm which is implemented at `Brain.py`.
 ```
 python main.py --auto
 ```
 
 #### Not auto
 
-Drive with your own algorithm which is implemented at `Brain.py`.
+Drive with Keyboard.
 
 ```
 python main.py
