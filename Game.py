@@ -5,6 +5,9 @@ from Trophy import TrophySprite
 from Car import CarSprite
 from Wall import WallSprite
 import copy
+import math
+import cv2
+from itertools import chain
 
 
 class Game:
@@ -19,7 +22,6 @@ class Game:
         self.win_condition = None
         self.win_text = font.render('', True, (0, 255, 0))
         self.loss_text = font.render('', True, (255, 0, 0))
-        pygame.mixer.music.load('My_Life_Be_Like.mp3')
         self.t0 = self.t1 = time.time()
         self.wall_group = pygame.sprite.RenderPlain(*walls)
         self.trophy_group = pygame.sprite.RenderPlain(*trophies)
@@ -97,7 +99,6 @@ class Game:
                 self.win_condition = True
                 self.car.MAX_FORWARD_SPEED = 0
                 self.car.MAX_REVERSE_SPEED = 0
-                pygame.mixer.music.play(loops=0, start=0.0)
                 self.win_text = self.win_font.render('Press Space to Advance', True, (0,255,0))
                 if self.win_condition == True:
                     self.car.k_right = -5
@@ -111,13 +112,124 @@ class Game:
             self.screen.blit(self.win_text, (250, 700))
             self.screen.blit(self.loss_text, (250, 700))
             pygame.display.flip()
+            self.make_lidar_data()
     
     def again(self):
         self.__init__(*self.init_args)
         self.run()
 
     def make_lidar_data(self):
-        self.database.lidar.data = None
+        L = 70
+        array = pygame.surfarray.array3d(self.screen)
+        array2 = copy.deepcopy(array)
+        car = self.database.car
+        x, y = car.position
+
+        car_direction = car.direction % 360
+
+        lidar_x = int(x - 20 * math.sin(math.pi * car_direction / 180))
+        lidar_y = int(y - 20 * math.cos(math.pi * car_direction / 180))
+
+        # print(array[lidar_x][lidar_y])
+
+        for direction in range(-90 + car_direction ,90 + car_direction):
+            direction = direction % 360
+            if 0 < direction < 90:
+                direction = 90 -direction
+            if 90 < direction < 180:
+                direction = 270 - direction
+            if 180 < direction < 270:
+                direction = 90 - direction
+            if 270 < direction < 360:
+                direction = 270 - direction
+            direction = direction % 360
+
+
+            x, y = lidar_x, lidar_y
+            m = math.tan(math.pi * direction / 180)
+            if direction == 0:
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    x = x
+                    y -= 1
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            elif (0 < direction < 45) or (315 <= direction < 360):
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    y -= 1
+                    x = (1 / m) * (y - lidar_y) +lidar_x
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            elif (45 <= direction < 90) or (90 < direction < 135):
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    x -= 1
+                    y = m * (x - lidar_x) +lidar_y
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            elif direction == 90:
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    x -= 1
+                    y = y
+            elif (135 <= direction < 180) or (180 < direction < 225):
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    y += 1
+                    x = (1 / m) * (y - lidar_y) +lidar_x
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            elif direction == 180:
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
+                    x = x
+                    y += 1
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            elif (225 <= direction < 270) or (270 < direction < 315):
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L) and (array[int(x)][int(y)] != 255).any():
+                    x += 1
+                    y = m * (x - lidar_x) +lidar_y
+                    try:
+                        array[int(x)][int(y)]
+                    except IndexError:
+                        break
+            elif direction == 270:
+                while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L) and (array[int(x)][int(y)] != 255).any():
+                    x += 1
+                    y = y
+                    try:
+                        if (array[int(x)][int(y)] == 255).all():
+                            break
+                    except IndexError:
+                        break
+            else:
+                print(f"Uncatched Case: {direction}")
+            try:
+                array2[int(x)][int(y)] = [255, 100, 100]
+                if array[int(x)][int(y)].all() == 255:
+                    print("something")
+            except IndexError:
+                pass
+            l = math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2)
+            if l > L:
+                l = L
+        # print(car_direction - 90, car_direction + 90)
+        cv2.imshow('video', array2)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()	
+            
+        
 
 if __name__ == "__main__":
     walls = [
