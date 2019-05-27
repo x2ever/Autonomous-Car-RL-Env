@@ -6,8 +6,7 @@ from Car import CarSprite
 from Wall import WallSprite
 import copy
 import math
-import cv2
-from itertools import chain
+import numpy as np
 
 
 class Game:
@@ -119,9 +118,9 @@ class Game:
         self.run()
 
     def make_lidar_data(self):
+        lidar_data = np.zeros((360))
         L = 70
         array = pygame.surfarray.array3d(self.screen)
-        array2 = copy.deepcopy(array)
         car = self.database.car
         x, y = car.position
 
@@ -130,20 +129,8 @@ class Game:
         lidar_x = int(x - 20 * math.sin(math.pi * car_direction / 180))
         lidar_y = int(y - 20 * math.cos(math.pi * car_direction / 180))
 
-        # print(array[lidar_x][lidar_y])
-
         for direction in range(-90 + car_direction ,90 + car_direction):
             direction = direction % 360
-            if 0 < direction < 90:
-                direction = 90 -direction
-            if 90 < direction < 180:
-                direction = 270 - direction
-            if 180 < direction < 270:
-                direction = 90 - direction
-            if 270 < direction < 360:
-                direction = 270 - direction
-            direction = direction % 360
-
 
             x, y = lidar_x, lidar_y
             m = math.tan(math.pi * direction / 180)
@@ -159,7 +146,7 @@ class Game:
             elif (0 < direction < 45) or (315 <= direction < 360):
                 while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
                     y -= 1
-                    x = (1 / m) * (y - lidar_y) +lidar_x
+                    x = (m) * (y - lidar_y) +lidar_x
                     try:
                         if (array[int(x)][int(y)] == 255).all():
                             break
@@ -168,7 +155,7 @@ class Game:
             elif (45 <= direction < 90) or (90 < direction < 135):
                 while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
                     x -= 1
-                    y = m * (x - lidar_x) +lidar_y
+                    y = (1 / m) * (x - lidar_x) +lidar_y
                     try:
                         if (array[int(x)][int(y)] == 255).all():
                             break
@@ -181,7 +168,7 @@ class Game:
             elif (135 <= direction < 180) or (180 < direction < 225):
                 while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L):
                     y += 1
-                    x = (1 / m) * (y - lidar_y) +lidar_x
+                    x = (m) * (y - lidar_y) +lidar_x
                     try:
                         if (array[int(x)][int(y)] == 255).all():
                             break
@@ -199,7 +186,7 @@ class Game:
             elif (225 <= direction < 270) or (270 < direction < 315):
                 while (math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2) < L) and (array[int(x)][int(y)] != 255).any():
                     x += 1
-                    y = m * (x - lidar_x) +lidar_y
+                    y = (1 / m) * (x - lidar_x) +lidar_y
                     try:
                         array[int(x)][int(y)]
                     except IndexError:
@@ -215,21 +202,15 @@ class Game:
                         break
             else:
                 print(f"Uncatched Case: {direction}")
-            try:
-                array2[int(x)][int(y)] = [255, 100, 100]
-                if array[int(x)][int(y)].all() == 255:
-                    print("something")
-            except IndexError:
-                pass
+
             l = math.sqrt((x - lidar_x) ** 2 + (y - lidar_y) ** 2)
             if l > L:
                 l = L
-        # print(car_direction - 90, car_direction + 90)
-        cv2.imshow('video', array2)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            cv2.destroyAllWindows()	
-            
+
+            lidar_data[direction] = l
         
+        self.database.lidar.data = lidar_data
+
 
 if __name__ == "__main__":
     walls = [
