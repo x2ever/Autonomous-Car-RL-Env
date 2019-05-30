@@ -30,7 +30,7 @@ SAT
 07:00 ~ 08:00 Breakfast
       ~ 08:30 Submission of results
 09:00 ~ 09:30 Product demonstration and evaluation
-09:30 ~ 10:00 ime of awards ceremony
+09:30 ~ 10:00 Time of awards ceremony
 ```
 
 ### Preview
