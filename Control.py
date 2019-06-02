@@ -8,13 +8,25 @@ class Control:
         self.left_event = pygame.event.Event(pygame.USEREVENT, {'key': K_LEFT})
     
     def up(self):
-        pygame.event.post(self.up_event)
+        try:
+            pygame.event.post(self.up_event)
+        except pygame.error:
+            pass
     
     def down(self):
-        pygame.event.post(self.down_event)
+        try:
+            pygame.event.post(self.down_event)
+        except pygame.error:
+            pass
 
     def right(self):
-        pygame.event.post(self.right_event)
+        try:
+            pygame.event.post(self.right_event)
+        except pygame.error:
+            pass
     
     def left(self):
-        pygame.event.post(self.left_event)
+        try:
+            pygame.event.post(self.left_event)
+        except pygame.error:
+            pass
