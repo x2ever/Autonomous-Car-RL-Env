@@ -21,7 +21,6 @@ class Game:
         self.win_condition = None
         self.win_text = font.render('', True, (0, 255, 0))
         self.loss_text = font.render('', True, (255, 0, 0))
-        self.t0 = self.t1 = time.time()
         self.wall_group = pygame.sprite.RenderPlain(*walls)
         self.trophy_group = pygame.sprite.RenderPlain(*trophies)
         self.car_group = pygame.sprite.RenderPlain(car)
@@ -30,32 +29,46 @@ class Game:
         self.database = database
 
     def run(self, auto = False):
+        seconds = 0
+        record = False
         while True:
-            #USER INPUT
-            self.t1 = time.time()
-            dt = self.t1-self.t0
-
             deltat = self.clock.tick(30)
-            seconds = round(dt, 2)
-            for event in pygame.event.get():
+            seconds += 0.03
+
+            seconds = round(seconds, 2)
+            
+            if self.win_condition is not None:
+                if not record:
+                    record = True
+                    result = seconds
+            events = pygame.event.get()
+            self.car.k_right = self.car.k_left = self.car.k_up = self.car.k_down = 0
+            for event in events:
                 if auto:
                     if not hasattr(event, 'key'): continue
                     down = event.type == USEREVENT
                     if self.win_condition == None: 
-                        if event.key == K_RIGHT: self.car.k_right = down * -5 
-                        elif event.key == K_LEFT: self.car.k_left = down * 5
-                        elif event.key == K_UP: self.car.k_up = down * 2
-                        elif event.key == K_DOWN: self.car.k_down = down * -2 
+                        if event.key == K_RIGHT:
+                            if self.car.k_right > -5 : self.car.k_right += -1
+                        elif event.key == K_LEFT:
+                            if self.car.k_left < 5 : self.car.k_left += 1
+                        elif event.key == K_UP:
+                            if self.car.k_up < 3 :
+                                self.car.k_up += 1
+                        elif event.key == K_DOWN:
+                            if self.car.k_down > -3 :
+                                self.car.k_down += -1 
                         elif event.key == K_ESCAPE: self.database.stop = True
                     elif self.win_condition == True and event.key == K_SPACE:
-                        print(seconds)
+                        print(result)
                         self.database.stop = True
                     elif self.win_condition == False and event.key == K_SPACE:
-                        print(seconds)
-                        self.again() 
-                        self.t0 = self.t1
+                        print(result)
+                        # self.again(auto=auto) 
+                        self.database.stop = True
                     elif event.key == K_ESCAPE:
                         self.database.stop = True
+                        print(result)
                 else:
                     if not hasattr(event, 'key'): continue
                     down = event.type == KEYDOWN 
@@ -66,12 +79,12 @@ class Game:
                         elif event.key == K_DOWN: self.car.k_down = down * -2 
                         elif event.key == K_ESCAPE: self.database.stop = True
                     elif self.win_condition == True and event.key == K_SPACE:
-                        print(seconds)
+                        print(result)
                         self.database.stop = True
                     elif self.win_condition == False and event.key == K_SPACE:
-                        print(seconds)
-                        self.again() 
-                        self.t0 = self.t1
+                        print(result)
+                        self.database.stop = True
+                        # self.again(auto=auto) 
                     elif event.key == K_ESCAPE:
                         self.database.stop = True
             
@@ -86,7 +99,6 @@ class Game:
                 self.win_condition = False
                 self.car.image = pygame.image.load('images/collision.png')
                 loss_text = self.win_font.render('Press Space to Retry', True, (255,0,0))
-                seconds = 0
                 self.car.MAX_FORWARD_SPEED = 0
                 self.car.MAX_REVERSE_SPEED = 0
                 self.car.k_right = 0
@@ -94,7 +106,6 @@ class Game:
 
             trophy_collision = pygame.sprite.groupcollide(self.car_group, self.trophy_group, False, True)
             if trophy_collision != {}:
-                seconds = seconds
                 self.win_condition = True
                 self.car.MAX_FORWARD_SPEED = 0
                 self.car.MAX_REVERSE_SPEED = 0
@@ -113,9 +124,9 @@ class Game:
             pygame.display.flip()
             self.make_lidar_data()
     
-    def again(self):
+    def again(self, auto):
         self.__init__(*self.init_args)
-        self.run()
+        self.run(auto=auto)
 
     def make_lidar_data(self):
         lidar_data = np.zeros((360))
