@@ -1,3 +1,8 @@
+import inspect
+import sys
+
+from Authority import AuthorityExecption
+
 class LiDAR:
     def __init__(self):
         self.__data = None
@@ -8,4 +13,8 @@ class LiDAR:
 
     @data.setter
     def data(self, new_data):
-        self.__data = new_data
+        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+            self.__data = new_data
+        else:
+            sys.tracebacklimit = 0
+            raise AuthorityExecption('Not allowed File %s is trying to change LiDAR.data at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))
