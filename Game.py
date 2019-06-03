@@ -42,11 +42,12 @@ class Game:
                     record = True
                     result = seconds
             events = pygame.event.get()
-            self.car.k_right = self.car.k_left = self.car.k_up = self.car.k_down = 0
+            if auto:
+                self.car.k_right = self.car.k_left = self.car.k_up = self.car.k_down = 0
             for event in events:
                 if auto:
                     if not hasattr(event, 'key'): continue
-                    down = event.type == USEREVENT
+                    if event.type != USEREVENT and (event.key == K_RIGHT or event.key == K_LEFT or event.key == K_UP or event.key == K_DOWN): continue
                     if self.win_condition == None: 
                         if event.key == K_RIGHT:
                             if self.car.k_right > -5 : self.car.k_right += -1
@@ -86,6 +87,7 @@ class Game:
                         self.database.stop = True
                         # self.again(auto=auto) 
                     elif event.key == K_ESCAPE:
+                        print(result)
                         self.database.stop = True
             
             if self.database.stop:
