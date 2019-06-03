@@ -16,7 +16,7 @@ from Database import Database
 from Course import Map1, Map2, Map3
 
 def main(auto):
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0, 30)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (500, 30)
     walls, trophies, car = Map1
     lidar = LiDAR()
     control = Control()
