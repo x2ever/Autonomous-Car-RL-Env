@@ -44,10 +44,11 @@ class Brain:
             # Implement Your Algorithm HERE!!
 
             # EXAMPLE CODE1: 속도 2로 유지하면서 오른쪽으로 회전하기
+            self.right()
    
-            if self.database.car.speed <= 5:
+            if self.database.car.speed <= 2:
                 self.up()
-            elif self.database.car.speed > 5:
+            elif self.database.car.speed > 2:
                 self.down()
     
     def up(self, num: int = 1):
