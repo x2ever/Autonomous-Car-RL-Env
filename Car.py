@@ -2,6 +2,7 @@ import pygame
 import math
 import inspect
 import sys
+import platform
 
 from Authority import AuthorityExecption
 
@@ -73,54 +74,103 @@ class CarSprite(pygame.sprite.Sprite):
 
     @k_up.setter
     def k_up(self, new_k_up):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self.__k_up = new_k_up
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__k_up = new_k_up
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_up at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_up at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__k_up = new_k_up
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_up at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
+
 
     @k_down.setter
     def k_down(self, new_k_down):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self.__k_down = new_k_down
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__k_down = new_k_down
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_down at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_down at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__k_down = new_k_down
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_down at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
 
     @k_right.setter
     def k_right(self, new_k_right):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self.__k_right = new_k_right
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__k_right = new_k_right
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_right at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_right at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__k_right = new_k_right
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_right at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
 
     @k_left.setter
     def k_left(self, new_k_left):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self.__k_left = new_k_left
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__k_left = new_k_left
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_left at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_left at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__k_left = new_k_left
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.k_left at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
 
     @MAX_FORWARD_SPEED.setter
     def MAX_FORWARD_SPEED(self, new_MAX_FORWARD_SPEED):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self.__MAX_FORWARD_SPEED = new_MAX_FORWARD_SPEED
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__MAX_FORWARD_SPEED = new_MAX_FORWARD_SPEED
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_FORWARD_SPEED at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_FORWARD_SPEED at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__MAX_FORWARD_SPEED = new_MAX_FORWARD_SPEED
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_FORWARD_SPEED at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
 
     @MAX_REVERSE_SPEED.setter
     def MAX_REVERSE_SPEED(self, new_MAX_REVERSE_SPEED):
-        if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
-            self._MAX_REVERSE_SPEED = new_MAX_REVERSE_SPEED
+        if platform.system() == 'Windows':
+            if inspect.stack()[1][1].split('\\')[-1] == 'Game.py':
+                self.__MAX_REVERSE_SPEED = new_MAX_REVERSE_SPEED
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_REVERSE_SPEED at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
         else:
-            sys.tracebacklimit = 0
-            print("YOU ARE TRYING TO CHEAT!")
-            raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_REVERSE_SPEED at \'%s\'' % (inspect.stack()[1][1].split('\\')[-1], inspect.stack()[1][0]))   
+            if inspect.stack()[1][1].split('/')[-1] == 'Game.py':
+                self.__MAX_REVERSE_SPEED = new_MAX_REVERSE_SPEED
+            else:
+                sys.tracebacklimit = 0
+                print("YOU ARE TRYING TO CHEAT!")
+                raise AuthorityExecption('Not allowed File %s is trying to change CarSprite.MAX_REVERSE_SPEED at \'%s\'' % (inspect.stack()[1][1].split('/')[-1], inspect.stack()[1][0]))   
