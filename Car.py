@@ -9,14 +9,16 @@ class CarSprite(pygame.sprite.Sprite):
     __MAX_FORWARD_SPEED = 10
     __MAX_REVERSE_SPEED = 10
 
-    def __init__(self, image, position):
+    def __init__(self, image, position, direction=0):
         pygame.sprite.Sprite.__init__(self)
         self.__src_image = pygame.image.load(image)
         self.__position = position
-        self.__speed = self.__direction = 0
+        self.__speed = 0
         self.__k_left = self.__k_right = self.__k_down = self.__k_up = 0
+        self.__direction = direction
+        self.update()
     
-    def update(self, deltat):
+    def update(self, deltat=False):
         #SIMULATION
         self.__speed += (self.__k_up + self.__k_down)
         if self.__speed > self.__MAX_FORWARD_SPEED:
