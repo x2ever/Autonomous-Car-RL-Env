@@ -132,7 +132,7 @@ class Game:
 
     def make_lidar_data(self):
         lidar_data = np.zeros((360))
-        L = 70
+        L = 100
         array = pygame.surfarray.array3d(self.screen)
         car = self.database.car
         x, y = car.position
