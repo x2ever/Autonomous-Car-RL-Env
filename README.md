@@ -13,7 +13,7 @@ __Preliminary team composition__: Maximum 4 people per team (individual particip
 
 __Instructions__:
 - Free breakfast and dinner
-- Award for Top 4 teams
+- Award for Top 3 teams
 
 __Summary of Competition__: Implementation of path generation and obstacle avoidance algorithm using virtual LiDAR data provided in simulator
 
