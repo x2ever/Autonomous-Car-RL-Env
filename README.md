@@ -17,14 +17,20 @@ __Instructions__:
 
 __Summary of Competition__: Implementation of path generation and obstacle avoidance algorithm using virtual LiDAR data provided in simulator
 
+__Jury Introduction__:
+
+Jiwoo Jeong
+- CEO of [Gepetto Robotics](https://www.gepetto.io/)
+- SKKU Master of Mechanical Engineering
+
 __Competition schedule__:
 
 ```
 FRI
-17:30 ~ 18:00 Meeting organizer introduction time
-18:00 ~ 19:00 Dinner and social hour
-19:00 ~ 20:00 Pre-training seminar
-20:00 ~       Start Hackathon
+18:30 ~ 18:45 Meeting organizer introduction time
+18:45 ~ 19:30 Dinner and social hour
+19:30 ~ 20:30 Pre-training seminar
+20:30 ~       Start Hackathon
 
 SAT
 07:00 ~ 08:00 Breakfast
