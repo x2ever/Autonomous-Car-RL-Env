@@ -6,7 +6,7 @@ Map1 = (
     [
         WallSprite((512, 2.5), 1024, 5),
         WallSprite((512, 765.5), 1024, 5),
-        WallSprite((2.5, 512), 5, 768),
+        WallSprite((2.5, 384), 5, 768),
         WallSprite((1021.5, 512), 5, 768),
         WallSprite((113 * 1, 768 - 130), 5, 260),
         WallSprite((113 * 2, 768 - 230), 5, 260),
@@ -30,7 +30,7 @@ Map1 = (
 Map2 = (
     [
         WallSprite((512, 2.5), 1024, 5),
-        WallSprite((388, 765.5), 1024, 5),
+        WallSprite((400, 765.5), 1024, 5),
         WallSprite((2.5, 384), 5, 768),
         WallSprite((1021.5, 384), 5, 768),
         WallSprite((100, 468), 5, 600),
