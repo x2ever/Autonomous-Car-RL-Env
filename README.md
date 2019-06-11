@@ -41,9 +41,7 @@ SAT
 
 __Result of Team1__:
 
-![Team1](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/1팀.gif)
-
-
+![Team1](https://github.com/x2ever/Autonomous-Car-Simulator/blob/master/images/1팀.gif)
 
 ### Preview
 
@@ -51,13 +49,13 @@ __Result of Team1__:
 
 Participants receive virtual LiDAR and GPS data.
 
-![LiDAR_preview.png](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/LiDAR_preview.png)
+![LiDAR_preview.png](https://github.com/x2ever/Autonomous-Car-Simulator/blob/master/images/LiDAR_preview.png)
 
 #### Course
 
 If the participants complete the route in the shortest time, they will win.
 
-![level1](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/level1.png)
+![level1](https://github.com/x2ever/Autonomous-Car-Simulator/blob/master/images/level1.png)
 
 
 ### Usage
