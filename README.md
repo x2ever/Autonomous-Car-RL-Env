@@ -39,6 +39,12 @@ SAT
 09:30 ~ 10:00 Time of awards ceremony
 ```
 
+__Result of Team1__:
+
+![Team1](https://github.com/x2ever/HEVEN-AutonomousCar-2019/blob/master/ThinKingo-Hackathon/images/1팀.gif)
+
+
+
 ### Preview
 
 #### LiDAR
