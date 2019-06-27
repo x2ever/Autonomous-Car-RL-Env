@@ -6,6 +6,7 @@ import platform
 
 from Authority import AuthorityExecption
 
+
 class CarSprite(pygame.sprite.Sprite):
     __MAX_FORWARD_SPEED = 10
     __MAX_REVERSE_SPEED = 10

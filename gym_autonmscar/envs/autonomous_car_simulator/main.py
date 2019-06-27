@@ -5,7 +5,7 @@ import argparse
 import os
 
 
-from gym_autonmscar.envs.autonomous_car_simulator.Game import Game 
+from gym_autonmscar.envs.autonomous_car_simulator.Game import Game
 from gym_autonmscar.envs.autonomous_car_simulator.Wall import WallSprite
 from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
 from gym_autonmscar.envs.autonomous_car_simulator.Trophy import TrophySprite
@@ -22,8 +22,9 @@ def main(auto):
     lidar = LiDAR()
     control = Control()
     database = Database(lidar, control, car)
-    brain = Brain(database) # Get LiDAR data, Set Control data
-    game = Game(walls, trophies, car, database) # Get Control data Set LiDAR data
+    brain = Brain(database)  # Get LiDAR data, Set Control data
+    # Get Control data Set LiDAR data
+    game = Game(walls, trophies, car, database)
     if auto:
         brain_thread = threading.Thread(target=brain.run,)
         brain_thread.start()
@@ -32,9 +33,10 @@ def main(auto):
 
     return 0
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--auto", help="Do not use your keyboard command, but use pre-defined brain's command.",
-                    action="store_true", default=False)
+                        action="store_true", default=False)
     args = parser.parse_args()
     main(args.auto)
