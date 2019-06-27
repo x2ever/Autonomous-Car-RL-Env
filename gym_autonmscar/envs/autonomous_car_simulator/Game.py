@@ -115,7 +115,7 @@ class Game:
                 self.car_group, self.wall_group, False, False, collided=None)
             if collisions != {}:
                 self.win_condition = False
-                self.car.image = pygame.image.load('images/collision.png')
+                self.car.image = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) + '/images/collision.png')
                 loss_text = self.win_font.render(
                     'Press Space to Retry', True, (255, 0, 0))
                 self.car.MAX_FORWARD_SPEED = 0
