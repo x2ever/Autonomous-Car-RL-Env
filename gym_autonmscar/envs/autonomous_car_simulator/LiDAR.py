@@ -1,13 +1,14 @@
 import inspect
 import sys
 import platform
+import numpy as np
 
 from Authority import AuthorityExecption
 
 
 class LiDAR:
     def __init__(self):
-        self.__data = None
+        self.__data = np.zeros((360))
 
     @property
     def data(self):
