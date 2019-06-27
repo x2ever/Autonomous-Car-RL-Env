@@ -10,6 +10,7 @@ from Wall import WallSprite
 import copy
 import math
 import numpy as np
+import os.path
 
 
 class Game:
