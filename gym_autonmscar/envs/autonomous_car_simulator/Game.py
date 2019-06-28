@@ -33,7 +33,7 @@ class Game:
         self.stop = False
         self.database = database
 
-    def run(self, auto=False):
+    def run(self, auto=False, step=False, action=None):
         seconds = 0
         record = False
         while True:
@@ -109,41 +109,45 @@ class Game:
             if self.database.stop:
                 break
 
-            # RENDERING
-            self.screen.fill((0, 0, 0))
-            self.car_group.update(deltat)
-            collisions = pygame.sprite.groupcollide(
-                self.car_group, self.wall_group, False, False, collided=None)
-            if collisions != {}:
-                self.win_condition = False
-                self.car.image = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) + '/images/collision.png')
-                loss_text = self.win_font.render(
-                    'Press Space to Retry', True, (255, 0, 0))
-                self.car.MAX_FORWARD_SPEED = 0
-                self.car.MAX_REVERSE_SPEED = 0
-                self.car.k_right = 0
-                self.car.k_left = 0
+            self.render(deltat)
 
-            trophy_collision = pygame.sprite.groupcollide(
-                self.car_group, self.trophy_group, False, True)
-            if trophy_collision != {}:
-                self.win_condition = True
-                self.car.MAX_FORWARD_SPEED = 0
-                self.car.MAX_REVERSE_SPEED = 0
-                self.win_text = self.win_font.render(
-                    'Press Space to Advance', True, (0, 255, 0))
-                if self.win_condition == True:
-                    self.car.k_right = -5
+    def render(self, deltat):
+        # RENDERING
+        self.screen.fill((0, 0, 0))
+        self.car_group.update(deltat)
+        collisions = pygame.sprite.groupcollide(
+            self.car_group, self.wall_group, False, False, collided=None)
+        if collisions != {}:
+            self.win_condition = False
+            self.car.image = pygame.image.load(os.path.dirname(
+                os.path.realpath(__file__)) + '/images/collision.png')
+            loss_text = self.win_font.render(
+                'Press Space to Retry', True, (255, 0, 0))
+            self.car.MAX_FORWARD_SPEED = 0
+            self.car.MAX_REVERSE_SPEED = 0
+            self.car.k_right = 0
+            self.car.k_left = 0
 
-            self.wall_group.update(collisions)
-            self.wall_group.draw(self.screen)
-            self.car_group.draw(self.screen)
-            self.trophy_group.draw(self.screen)
-            # Counter Render
-            self.screen.blit(self.win_text, (250, 700))
-            self.screen.blit(self.loss_text, (250, 700))
-            pygame.display.flip()
-            self.make_lidar_data()
+        trophy_collision = pygame.sprite.groupcollide(
+            self.car_group, self.trophy_group, False, True)
+        if trophy_collision != {}:
+            self.win_condition = True
+            self.car.MAX_FORWARD_SPEED = 0
+            self.car.MAX_REVERSE_SPEED = 0
+            self.win_text = self.win_font.render(
+                'Press Space to Advance', True, (0, 255, 0))
+            if self.win_condition == True:
+                self.car.k_right = -5
+
+        self.wall_group.update(collisions)
+        self.wall_group.draw(self.screen)
+        self.car_group.draw(self.screen)
+        self.trophy_group.draw(self.screen)
+        # Counter Render
+        self.screen.blit(self.win_text, (250, 700))
+        self.screen.blit(self.loss_text, (250, 700))
+        pygame.display.flip()
+        self.make_lidar_data()
 
     def again(self, auto):
         self.__init__(*self.init_args)
