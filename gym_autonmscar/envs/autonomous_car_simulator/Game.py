@@ -34,16 +34,15 @@ class Game:
         self.database = database
 
     def run(self, auto=False):
-        deltat = self.clock.tick(30)
         self.seconds = 0
         self.record = False
         while True:
-            self.step(auto)
+            self.step(auto=auto)
             if self.database.stop:
                 break
-            self.render(deltat)
+            self.render()
 
-    def step(self, auto):
+    def step(self, auto=True):
         self.seconds += 0.03
         self.seconds = round(self.seconds, 2)
 
@@ -111,7 +110,14 @@ class Game:
                     print(result)
                     self.database.stop = True
 
-    def render(self, deltat):
+        # TODO: making the obs data for agent... can be a module
+        self.make_lidar_data()
+        obs = np.insert(self.database.lidar.data, -1, self.car.direction)
+        obs = np.insert(obs, -1, self.car.speed)
+        return obs, result
+
+    def render(self):
+        deltat = self.clock.tick(30)
         # RENDERING
         self.screen.fill((0, 0, 0))
         self.car_group.update(deltat)
@@ -147,7 +153,6 @@ class Game:
         self.screen.blit(self.win_text, (250, 700))
         self.screen.blit(self.loss_text, (250, 700))
         pygame.display.flip()
-        self.make_lidar_data()
 
     def again(self, auto):
         self.__init__(*self.init_args)
