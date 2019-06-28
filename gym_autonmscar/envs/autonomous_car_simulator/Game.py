@@ -33,83 +33,83 @@ class Game:
         self.stop = False
         self.database = database
 
-    def run(self, auto=False, step=False, action=None):
-        seconds = 0
-        record = False
+    def run(self, auto=False):
+        deltat = self.clock.tick(30)
+        self.seconds = 0
+        self.record = False
         while True:
-            deltat = self.clock.tick(30)
-            seconds += 0.03
-
-            seconds = round(seconds, 2)
-
-            if self.win_condition is not None:
-                if not record:
-                    record = True
-                    result = seconds
-            events = pygame.event.get()
-            if auto:
-                self.car.k_right = self.car.k_left = self.car.k_up = self.car.k_down = 0
-            for event in events:
-                if auto:
-                    if not hasattr(event, 'key'):
-                        continue
-                    if event.type != USEREVENT and (event.key == K_RIGHT or event.key == K_LEFT or event.key == K_UP or event.key == K_DOWN):
-                        continue
-                    if self.win_condition == None:
-                        if event.key == K_RIGHT:
-                            if self.car.k_right > -5:
-                                self.car.k_right += -1
-                        elif event.key == K_LEFT:
-                            if self.car.k_left < 5:
-                                self.car.k_left += 1
-                        elif event.key == K_UP:
-                            if self.car.k_up < 3:
-                                self.car.k_up += 1
-                        elif event.key == K_DOWN:
-                            if self.car.k_down > -3:
-                                self.car.k_down += -1
-                        elif event.key == K_ESCAPE:
-                            self.database.stop = True
-                    elif self.win_condition == True and event.key == K_SPACE:
-                        print(result)
-                        self.database.stop = True
-                    elif self.win_condition == False and event.key == K_SPACE:
-                        print(result)
-                        # self.again(auto=auto)
-                        self.database.stop = True
-                    elif event.key == K_ESCAPE:
-                        self.database.stop = True
-                        print(result)
-                else:
-                    if not hasattr(event, 'key'):
-                        continue
-                    down = event.type == KEYDOWN
-                    if self.win_condition == None:
-                        if event.key == K_RIGHT:
-                            self.car.k_right = down * -5
-                        elif event.key == K_LEFT:
-                            self.car.k_left = down * 5
-                        elif event.key == K_UP:
-                            self.car.k_up = down * 2
-                        elif event.key == K_DOWN:
-                            self.car.k_down = down * -2
-                        elif event.key == K_ESCAPE:
-                            self.database.stop = True
-                    elif self.win_condition == True and event.key == K_SPACE:
-                        print(result)
-                        self.database.stop = True
-                    elif self.win_condition == False and event.key == K_SPACE:
-                        print(result)
-                        self.database.stop = True
-                        # self.again(auto=auto)
-                    elif event.key == K_ESCAPE:
-                        print(result)
-                        self.database.stop = True
-
+            self.step(auto)
             if self.database.stop:
                 break
-
             self.render(deltat)
+
+    def step(self, auto):
+        self.seconds += 0.03
+        self.seconds = round(self.seconds, 2)
+
+        if self.win_condition is not None:
+            if not self.record:
+                self.record = True
+                result = self.seconds
+        events = pygame.event.get()
+        if auto:
+            self.car.k_right = self.car.k_left = self.car.k_up = self.car.k_down = 0
+        for event in events:
+            if auto:
+                if not hasattr(event, 'key'):
+                    continue
+                if event.type != USEREVENT and (event.key == K_RIGHT or event.key == K_LEFT or event.key == K_UP or event.key == K_DOWN):
+                    continue
+                if self.win_condition == None:
+                    if event.key == K_RIGHT:
+                        if self.car.k_right > -5:
+                            self.car.k_right += -1
+                    elif event.key == K_LEFT:
+                        if self.car.k_left < 5:
+                            self.car.k_left += 1
+                    elif event.key == K_UP:
+                        if self.car.k_up < 3:
+                            self.car.k_up += 1
+                    elif event.key == K_DOWN:
+                        if self.car.k_down > -3:
+                            self.car.k_down += -1
+                    elif event.key == K_ESCAPE:
+                        self.database.stop = True
+                elif self.win_condition == True and event.key == K_SPACE:
+                    print(result)
+                    self.database.stop = True
+                elif self.win_condition == False and event.key == K_SPACE:
+                    print(result)
+                    # self.again(auto=auto)
+                    self.database.stop = True
+                elif event.key == K_ESCAPE:
+                    self.database.stop = True
+                    print(result)
+            else:
+                if not hasattr(event, 'key'):
+                    continue
+                down = event.type == KEYDOWN
+                if self.win_condition == None:
+                    if event.key == K_RIGHT:
+                        self.car.k_right = down * -5
+                    elif event.key == K_LEFT:
+                        self.car.k_left = down * 5
+                    elif event.key == K_UP:
+                        self.car.k_up = down * 2
+                    elif event.key == K_DOWN:
+                        self.car.k_down = down * -2
+                    elif event.key == K_ESCAPE:
+                        self.database.stop = True
+                elif self.win_condition == True and event.key == K_SPACE:
+                    print(result)
+                    self.database.stop = True
+                elif self.win_condition == False and event.key == K_SPACE:
+                    print(result)
+                    self.database.stop = True
+                    # self.again(auto=auto)
+                elif event.key == K_ESCAPE:
+                    print(result)
+                    self.database.stop = True
 
     def render(self, deltat):
         # RENDERING
