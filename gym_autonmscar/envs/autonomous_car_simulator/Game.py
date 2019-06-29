@@ -119,6 +119,7 @@ class Game:
     def render(self):
         deltat = self.clock.tick(30)
         # RENDERING
+        # TODO: not in render, goto step...
         self.screen.fill((0, 0, 0))
         self.car_group.update(deltat)
         collisions = pygame.sprite.groupcollide(

@@ -15,20 +15,11 @@ class AutonomousCarEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
-        # initialize the game
-        lidar = LiDAR()
-        control = Control()
-        walls, trophies, car = Map1
-        self.database = Database(lidar, control, car)
-        self.game = Game(walls, trophies, car, self.database)
-        self.game.seconds = 0
-        self.game.record = False
-
         # initialize the RL environment
         self.action_space = spaces.Discrete(4)  # up, down, left, right
         L = 100  # in LiDAR.py
         # (360 for LiDAR data) + (2 for the status of car)
-        self.observation_size = self.database.lidar.data.shape[0] + 2
+        self.observation_size = 360 + 2
         self.observation_space = spaces.Box(
             low=0, high=L, shape=(self.observation_size, 0))
 
@@ -50,11 +41,24 @@ class AutonomousCarEnv(gym.Env):
         return obs, reward, self.database.stop, None
 
     def reset(self):
-        self.__init__()
+        try:
+            del self.game
+        except:
+            pass
+        # initialize the game
+        lidar = LiDAR()
+        control = Control()
+        walls, trophies, car = Map1
+        self.database = Database(lidar, control, car)
+        self.game = Game(walls, trophies, car, self.database)
+        self.game.seconds = 0
+        self.game.record = False
+
         # TODO: can be a module
         self.game.make_lidar_data()
         obs = np.insert(self.database.lidar.data, -1, self.game.car.direction)
         obs = np.insert(obs, -1, self.game.car.speed)
+
         return obs
 
     def render(self, mode='human', close=False):
