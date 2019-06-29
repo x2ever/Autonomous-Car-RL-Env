@@ -4,7 +4,7 @@ import inspect
 import sys
 import platform
 
-from Authority import AuthorityExecption
+from gym_autonmscar.envs.autonomous_car_simulator.Authority import AuthorityExecption
 
 
 class CarSprite(pygame.sprite.Sprite):

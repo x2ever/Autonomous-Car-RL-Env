@@ -1,8 +1,8 @@
 import os.path
 
-from Wall import WallSprite
-from Car import CarSprite
-from Trophy import TrophySprite
+from gym_autonmscar.envs.autonomous_car_simulator.Wall import WallSprite
+from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
+from gym_autonmscar.envs.autonomous_car_simulator.Trophy import TrophySprite
 
 Map1 = (
     [

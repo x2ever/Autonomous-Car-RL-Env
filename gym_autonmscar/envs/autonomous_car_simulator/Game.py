@@ -4,9 +4,9 @@ import math
 import sys
 import time
 from pygame.locals import *
-from Trophy import TrophySprite
-from Car import CarSprite
-from Wall import WallSprite
+from gym_autonmscar.envs.autonomous_car_simulator.Trophy import TrophySprite
+from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
+from gym_autonmscar.envs.autonomous_car_simulator.Wall import WallSprite
 import copy
 import math
 import numpy as np
@@ -45,7 +45,7 @@ class Game:
     def step(self, auto=True):
         self.seconds += 0.03
         self.seconds = round(self.seconds, 2)
-
+        result = 0
         if self.win_condition is not None:
             if not self.record:
                 self.record = True

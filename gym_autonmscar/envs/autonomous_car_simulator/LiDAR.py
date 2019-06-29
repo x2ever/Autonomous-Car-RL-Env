@@ -3,7 +3,7 @@ import sys
 import platform
 import numpy as np
 
-from Authority import AuthorityExecption
+from gym_autonmscar.envs.autonomous_car_simulator.Authority import AuthorityExecption
 
 
 class LiDAR:
