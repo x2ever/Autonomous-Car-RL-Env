@@ -43,7 +43,10 @@ class AutonomousCarEnv(gym.Env):
             self.left()
         obs, result = self.game.step()
         # TODO: reward?
-        reward = 100 / result
+        if result == 0:
+            reward = 0
+        else:
+            reward = 100 / result
         return obs, reward, self.database.stop, None
 
     def reset(self):
