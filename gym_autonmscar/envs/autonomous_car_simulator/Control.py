@@ -6,6 +6,7 @@ class Control:
         self.down_event = pygame.event.Event(pygame.USEREVENT, {'key': K_DOWN})
         self.right_event = pygame.event.Event(pygame.USEREVENT, {'key': K_RIGHT})
         self.left_event = pygame.event.Event(pygame.USEREVENT, {'key': K_LEFT})
+        self.finish_event = pygame.event.Event(pygame.USEREVENT, {'key': K_SPACE})
     
     def up(self):
         try:
@@ -28,5 +29,11 @@ class Control:
     def left(self):
         try:
             pygame.event.post(self.left_event)
+        except pygame.error:
+            pass
+    
+    def finish(self):
+        try:
+            pygame.event.post(self.finish_event)
         except pygame.error:
             pass
