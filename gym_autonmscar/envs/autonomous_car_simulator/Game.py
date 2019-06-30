@@ -75,15 +75,15 @@ class Game:
                     elif event.key == K_ESCAPE:
                         self.database.stop = True
                 elif self.win_condition == True and event.key == K_SPACE:
-                    print(result)
+                    # print(result)
                     self.database.stop = True
                 elif self.win_condition == False and event.key == K_SPACE:
-                    print(result)
+                    # print(result)
                     # self.again(auto=auto)
                     self.database.stop = True
                 elif event.key == K_ESCAPE:
                     self.database.stop = True
-                    print(result)
+                    # print(result)
             else:
                 if not hasattr(event, 'key'):
                     continue
@@ -152,8 +152,6 @@ class Game:
         self.make_lidar_data()
         obs = np.insert(self.database.lidar.data, -1, self.car.direction)
         obs = np.insert(obs, -1, self.car.speed)
-        if self.win_condition == False:
-            result = 0
         return obs, result
 
     def render(self):
