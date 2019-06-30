@@ -110,18 +110,10 @@ class Game:
                     print(result)
                     self.database.stop = True
 
-        # TODO: making the obs data for agent... can be a module
-        self.make_lidar_data()
-        obs = np.insert(self.database.lidar.data, -1, self.car.direction)
-        obs = np.insert(obs, -1, self.car.speed)
-        return obs, result
-
-    def render(self):
         deltat = self.clock.tick(30)
-        # RENDERING
-        # TODO: not in render, goto step...
         self.screen.fill((0, 0, 0))
         self.car_group.update(deltat)
+        # check the end of the game
         collisions = pygame.sprite.groupcollide(
             self.car_group, self.wall_group, False, False, collided=None)
         if collisions != {}:
@@ -135,6 +127,7 @@ class Game:
             self.car.k_right = 0
             self.car.k_left = 0
 
+        # win check
         trophy_collision = pygame.sprite.groupcollide(
             self.car_group, self.trophy_group, False, True)
         if trophy_collision != {}:
@@ -145,14 +138,25 @@ class Game:
                 'Press Space to Advance', True, (0, 255, 0))
             if self.win_condition == True:
                 self.car.k_right = -5
-
         self.wall_group.update(collisions)
+        # RENDERING
         self.wall_group.draw(self.screen)
         self.car_group.draw(self.screen)
         self.trophy_group.draw(self.screen)
+
         # Counter Render
         self.screen.blit(self.win_text, (250, 700))
         self.screen.blit(self.loss_text, (250, 700))
+
+        # TODO: making the obs data for agent... can be a module
+        self.make_lidar_data()
+        obs = np.insert(self.database.lidar.data, -1, self.car.direction)
+        obs = np.insert(obs, -1, self.car.speed)
+        if self.win_condition == False:
+            result = 0
+        return obs, result
+
+    def render(self):
         pygame.display.flip()
 
     def again(self, auto):
