@@ -2,6 +2,8 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 import numpy as np
+import pygame
+import os
 
 from gym_autonmscar.envs.autonomous_car_simulator.Brain import Brain
 from gym_autonmscar.envs.autonomous_car_simulator.LiDAR import LiDAR
@@ -9,6 +11,7 @@ from gym_autonmscar.envs.autonomous_car_simulator.Control import Control
 from gym_autonmscar.envs.autonomous_car_simulator.Course import Map1, Map2, Map3
 from gym_autonmscar.envs.autonomous_car_simulator.Database import Database
 from gym_autonmscar.envs.autonomous_car_simulator.Game import Game
+from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
 
 
 class AutonomousCarEnv(gym.Env):
@@ -24,14 +27,17 @@ class AutonomousCarEnv(gym.Env):
             low=0, high=L, shape=(self.observation_size, 0))
 
     def step(self, action):
-        if action == 0:
-            self.up()
-        elif action == 1:
-            self.down()
-        elif action == 2:
-            self.right()
-        elif action == 3:
-            self.left()
+        if self.game.win_condition is not None:
+            self.finish()
+        else:
+            if action == 0:
+                self.up()
+            elif action == 1:
+                self.down()
+            elif action == 2:
+                self.right()
+            elif action == 3:
+                self.left()
         obs, result = self.game.step()
         # TODO: reward?
         if result == 0:
@@ -43,12 +49,17 @@ class AutonomousCarEnv(gym.Env):
     def reset(self):
         try:
             del self.game
+            del self.database
+            pygame.event.get()
         except:
             pass
         # initialize the game
         lidar = LiDAR()
         control = Control()
         walls, trophies, car = Map1
+        # for deepcopy...
+        car = CarSprite(
+            './gym_autonmscar/envs/autonomous_car_simulator/images/car.png', (50, 700))
         self.database = Database(lidar, control, car)
         self.game = Game(walls, trophies, car, self.database)
         self.game.seconds = 0
@@ -79,3 +90,6 @@ class AutonomousCarEnv(gym.Env):
     def left(self, num: int = 1):
         for i in range(num):
             self.database.control.left()
+
+    def finish(self):
+        self.database.control.finish()
