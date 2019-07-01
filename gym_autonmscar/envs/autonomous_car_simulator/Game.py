@@ -148,11 +148,14 @@ class Game:
         self.screen.blit(self.win_text, (250, 700))
         self.screen.blit(self.loss_text, (250, 700))
 
-        # TODO: making the obs data for agent... can be a module
+        obs = self.make_obs()
+        return obs, result
+    
+    def make_obs(self):
         self.make_lidar_data()
         obs = np.insert(self.database.lidar.data, -1, self.car.direction)
         obs = np.insert(obs, -1, self.car.speed)
-        return obs, result
+        return obs
 
     def render(self):
         pygame.display.flip()

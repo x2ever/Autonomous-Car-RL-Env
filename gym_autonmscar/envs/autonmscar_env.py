@@ -39,15 +39,16 @@ class AutonomousCarEnv(gym.Env):
             elif action == 3:
                 self.left()
         obs, result = self.game.step()
-        # TODO: reward?
+        
+        # rewards
         reward = 0
-        if self.game.win_condition == False:
+        if self.game.win_condition == False:  # when colliding the wall
             print("Fail")
             reward -= 1
-        elif self.game.win_condition == True:
+        elif self.game.win_condition == True:  # when getting the trophy
             print("Success, result: " + result)
             reward += 100 / result + 1000
-        else:
+        else:  # moving is the reward
             # speed range: 0 - 10
             reward += self.game.car.speed
 
@@ -72,11 +73,7 @@ class AutonomousCarEnv(gym.Env):
         self.game.seconds = 0
         self.game.record = False
 
-        # TODO: can be a module
-        self.game.make_lidar_data()
-        obs = np.insert(self.database.lidar.data, -1, self.game.car.direction)
-        obs = np.insert(obs, -1, self.game.car.speed)
-
+        obs = self.game.make_obs()
         return obs
 
     def render(self, mode='human', close=False):
