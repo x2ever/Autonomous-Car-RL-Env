@@ -153,7 +153,7 @@ class Game:
     
     def make_obs(self):
         self.make_lidar_data()
-        obs = np.insert(self.database.lidar.data, -1, self.car.direction)
+        obs = np.insert(self.database.lidar.data, -1, self.car.position)
         obs = np.insert(obs, -1, self.car.speed)
         return obs
 

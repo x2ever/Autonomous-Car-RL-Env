@@ -21,8 +21,8 @@ class AutonomousCarEnv(gym.Env):
         # initialize the RL environment
         self.action_space = spaces.Discrete(4)  # up, down, left, right
         L = 100  # in LiDAR.py
-        # (360 for LiDAR data) + (2 for the status of car)
-        self.observation_size = 360 + 2
+        # (360 for LiDAR data) + (3 for the status of car)
+        self.observation_size = 360 + 3
         self.observation_space = spaces.Box(
             low=0, high=L, shape=(self.observation_size,))
 
