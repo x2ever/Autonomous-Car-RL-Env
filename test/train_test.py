@@ -1,5 +1,6 @@
 import gym
 import gym_autonmscar
+import os
 from stable_baselines.common.vec_env import DummyVecEnv
 from stable_baselines.deepq.policies import MlpPolicy
 from stable_baselines import DQN
@@ -18,4 +19,4 @@ model = DQN(
 model.learn(total_timesteps=1000)
 
 print("save the model")
-model.save("test_model.pkl")
+model.save(os.path.dirname(os.path.realpath(__file__)) + "/test_model.pkl")
