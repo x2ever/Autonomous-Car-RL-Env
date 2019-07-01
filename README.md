@@ -12,7 +12,9 @@ Autonomous car simulation environment for RL agent.
 $ git clone https://github.com/Jueun-Park/gym-autonmscar.git
 ```
 
-2. `cd` into `gym-autonmscar`, then install the requirements.
+2. Before installing `stable-baselines`, please refer to [stable-baselines README](https://github.com/hill-a/stable-baselines#prerequisites) and install the prerequisites.
+
+3. `cd` into `gym-autonmscar`, then install the requirements.
 
 ```shell
 $ pip install -e .
