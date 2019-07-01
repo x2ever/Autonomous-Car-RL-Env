@@ -24,7 +24,7 @@ class AutonomousCarEnv(gym.Env):
         # (360 for LiDAR data) + (2 for the status of car)
         self.observation_size = 360 + 2
         self.observation_space = spaces.Box(
-            low=0, high=L, shape=(self.observation_size, 0))
+            low=0, high=L, shape=(self.observation_size,))
 
     def step(self, action):
         if self.game.win_condition is not None:
@@ -40,11 +40,18 @@ class AutonomousCarEnv(gym.Env):
                 self.left()
         obs, result = self.game.step()
         # TODO: reward?
-        if result == 0:
-            reward = 0
+        reward = 0
+        if self.game.win_condition == False:
+            print("Fail")
+            reward -= 1
+        elif self.game.win_condition == True:
+            print("Success, result: " + result)
+            reward += 100 / result + 1000
         else:
-            reward = 100 / result
-        return obs, reward, self.database.stop, None
+            # speed range: 0 - 10
+            reward += self.game.car.speed
+
+        return obs, reward, self.database.stop, {}
 
     def reset(self):
         try:
