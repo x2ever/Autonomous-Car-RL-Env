@@ -39,12 +39,12 @@ class AutonomousCarEnv(gym.Env):
             elif action == 3:
                 self.left()
         obs, result = self.game.step()
-        
+
         # rewards
         reward = 0
         if self.game.win_condition == False:  # when colliding the wall
             print("Fail")
-            reward -= 1
+            reward -= 10
         elif self.game.win_condition == True:  # when getting the trophy
             print("Success, result: " + result)
             reward += 100 / result + 1000
