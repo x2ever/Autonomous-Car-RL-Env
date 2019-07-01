@@ -6,33 +6,33 @@ Autonomous car simulation environment for RL agent.
 
 ### Install
 
-1. Clone this repository
+1. Clone this repository.
 
 ```shell
-git clone https://github.com/Jueun-Park/gym-autonmscar.git
+$ git clone https://github.com/Jueun-Park/gym-autonmscar.git
 ```
 
-2. `cd` into `gym-autonmscar`, then install the requirements
+2. `cd` into `gym-autonmscar`, then install the requirements.
 
 ```shell
-pip install -e .
+$ pip install -e .
 ```
 
 You can use `virtualenv` for isolation of the training environment. The python version used in this project is python3.6.8.
 
 ### Train and load the model
 
-Train the model using the test code. The test code using DQN implemented in the [`stable-baselines`](https://github.com/hill-a/stable-baselines).
+Train the model using the test code. The test code used DQN implemented in the [`stable-baselines`](https://github.com/hill-a/stable-baselines).
 
 ```shell
-python test/train_test.py
-python test/load_test.py
+$ python test/train_test.py
+$ python test/load_test.py
 ```
 
 You can check the graph using `tensorboard`.
 
 ```shell
-tensorboard --logdir ./dqn_tensorboard/
+$ tensorboard --logdir ./dqn_tensorboard/
 ```
 
 ## Details
