@@ -62,6 +62,7 @@ The action space is 4 dimensions.
     * `reward += 100 / [seconds after start] + 1000`
 3. Else status
     * `reward += [speed of the car]`
+    * if the speed of car is 0, then `reward = -1`
 
 ---
 
