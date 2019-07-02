@@ -5,7 +5,7 @@ from stable_baselines.common.vec_env import DummyVecEnv
 from stable_baselines import DQN
 
 # TODO: use argparse
-model_name = "/models/dqn-model_999.pkl"
+model_name = "/models/dqn-model_1000.pkl"
 
 env = gym.make('autonmscar-v0')
 env = DummyVecEnv([lambda: env])

@@ -9,7 +9,7 @@ from stable_baselines.bench import Monitor
 from stable_baselines.results_plotter import load_results, ts2xy
 from stable_baselines import DQN
 
-TIMESTEPS = 1000001
+TIMESTEPS = 10000001
 
 best_mean_reward = -numpy.inf
 n_steps = 0
