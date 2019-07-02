@@ -18,6 +18,7 @@ class AutonomousCarEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
+        self._map_version = 0  # change the map version using this value (0, 1, 2)
         # initialize the RL environment
         self.action_space = spaces.Discrete(4)  # up, down, left, right
         L = 100  # in LiDAR.py
@@ -43,14 +44,16 @@ class AutonomousCarEnv(gym.Env):
         # rewards
         reward = 0
         if self.game.win_condition == False:  # when colliding the wall
-            print("Fail")
+            # print("Fail")
             reward -= 10
         elif self.game.win_condition == True:  # when getting the trophy
             print("Success, result: " + result)
             reward += 100 / result + 1000
         else:  # moving is the reward
-            # speed range: 0 - 10
+            # speed range: -10 to 10
             reward += self.game.car.speed
+            if self.game.car.speed == 0:
+                reward = -1
 
         return obs, reward, self.database.stop, {}
 
@@ -64,10 +67,20 @@ class AutonomousCarEnv(gym.Env):
         # initialize the game
         lidar = LiDAR()
         control = Control()
-        walls, trophies, car = Map1
-        # for deepcopy...
-        car = CarSprite(
-            './gym_autonmscar/envs/autonomous_car_simulator/images/car.png', (50, 700))
+        if self._map_version == 1:
+            walls, trophies, car = Map1
+            # for deepcopy...
+            car = CarSprite(
+                './gym_autonmscar/envs/autonomous_car_simulator/images/car.png', (50, 700))
+        elif self._map_version == 2:
+            walls, trophies, car = Map2
+            car = CarSprite(
+                './gym_autonmscar/envs/autonomous_car_simulator/images/car.png', (50, 700))
+        else:
+            walls, trophies, car = Map3
+            car = CarSprite(
+                './gym_autonmscar/envs/autonomous_car_simulator/images/car.png', (30, 570), -20)
+
         self.database = Database(lidar, control, car)
         self.game = Game(walls, trophies, car, self.database)
         self.game.seconds = 0
