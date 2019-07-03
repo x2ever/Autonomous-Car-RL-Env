@@ -49,7 +49,7 @@ class AutonomousCarEnv(gym.Env):
                 self.right()
             elif action == 3:
                 self.left()
-        obs, result = self.game.step()
+        obs = self.game.step()
 
         # rewards
         reward = 0
@@ -57,8 +57,9 @@ class AutonomousCarEnv(gym.Env):
             # print("Fail")
             reward -= 10
         elif self.game.win_condition == True:  # when getting the trophy
-            print("Success, result: " + str(result))
-            reward += 100 / result + 1000
+            print("Success, result: " + str(self.game.seconds))
+            if self.game.seconds != 0:
+                reward += 100 / self.game.seconds + 1000
         else:  # moving is the reward
             # speed range: -10 to 10
             reward += self.game.car.speed

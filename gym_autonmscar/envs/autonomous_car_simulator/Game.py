@@ -149,7 +149,7 @@ class Game:
         self.screen.blit(self.loss_text, (250, 700))
 
         obs = self.make_obs()
-        return obs, result
+        return obs
     
     def make_obs(self):
         self.make_lidar_data()
