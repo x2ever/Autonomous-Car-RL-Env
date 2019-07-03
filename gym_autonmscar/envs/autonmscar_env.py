@@ -37,7 +37,7 @@ class AutonomousCarEnv(gym.Env):
     def step(self, action):
         if self.continuous:
             action = softmax(action)
-            action = np.random.choice(4, 1, p=action)
+            action = int(np.random.choice(4, 1, p=action))
         if self.game.win_condition is not None:
             self.finish()
         else:
