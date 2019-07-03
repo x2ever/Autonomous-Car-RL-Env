@@ -13,8 +13,8 @@ TIMESTEPS = 10000001
 
 best_mean_reward = -numpy.inf
 n_steps = 0
-log_directory = os.path.dirname(os.path.realpath(__file__)) + "/log/"
-model_directory = os.path.dirname(os.path.realpath(__file__)) + "/models/"
+log_directory = os.path.dirname(os.path.realpath(__file__)) + "/dqn-log/"
+model_directory = os.path.dirname(os.path.realpath(__file__)) + "/dqn-models/"
 
 
 def callback(_locals, _globals):
