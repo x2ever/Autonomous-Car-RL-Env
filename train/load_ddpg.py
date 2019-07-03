@@ -11,7 +11,10 @@ model = DDPG.load(os.path.dirname(
     os.path.realpath(__file__)) + model_name)
 
 obs = env.reset()
+done = False
 for i in range(1000):
+    if done:
+        env.reset()
     action, _states = model.predict(obs)
-    obs, rewards, dones, info = env.step(action)
+    obs, rewards, done, info = env.step(action)
     env.render()
