@@ -17,10 +17,17 @@ from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
 class AutonomousCarEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
+    continuous = False
+
     def __init__(self):
-        self._map_version = 0  # change the map version using this value (0, 1, 2)
+        # change the map version using this value (0, 1, 2)
+        self._map_version = 0
         # initialize the RL environment
-        self.action_space = spaces.Discrete(4)  # up, down, left, right
+        if self.continuous:
+            # the probability of up, down, left, right, respectively
+            self.action_space = spaces.Box(low=-1, high=1, shape=(4, ))
+        else:
+            self.action_space = spaces.Discrete(4)  # up, down, left, right
         L = 100  # in LiDAR.py
         # (360 for LiDAR data) + (3 for the status of car)
         self.observation_size = 360 + 3
@@ -28,6 +35,9 @@ class AutonomousCarEnv(gym.Env):
             low=0, high=L, shape=(self.observation_size,))
 
     def step(self, action):
+        if self.continuous:
+            action = softmax(action)
+            action = np.random.choice(4, 1, p=action)
         if self.game.win_condition is not None:
             self.finish()
         else:
@@ -110,3 +120,15 @@ class AutonomousCarEnv(gym.Env):
 
     def finish(self):
         self.database.control.finish()
+
+
+class AutonomousCarEnvContinuous(AutonomousCarEnv):
+    continuous = True
+
+
+def softmax(a):
+    c = np.max(a)
+    exp_a = np.exp(a-c)
+    sum_exp_a = np.sum(exp_a)
+    y = exp_a / sum_exp_a
+    return y
