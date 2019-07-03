@@ -15,7 +15,7 @@ from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
 
 
 class AutonomousCarEnv(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {'render.modes': ['human', 'rgb_array']}
 
     def __init__(self):
         self._map_version = 0  # change the map version using this value (0, 1, 2)
@@ -91,6 +91,11 @@ class AutonomousCarEnv(gym.Env):
 
     def render(self, mode='human', close=False):
         self.game.render()
+        if mode == 'rgb_array':
+            self.game.screen.lock()
+            arr = np.array(pygame.surfarray.array3d(self.game.screen), dtype=np.uint8)  # TODO
+            self.game.screen.unlock()
+            return arr
 
     def up(self, num: int = 1):
         for i in range(num):
