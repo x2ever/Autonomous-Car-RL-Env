@@ -20,7 +20,9 @@ img = env.render(mode='rgb_array')
 for i in range(350):
     images.append(img)
     action, _ = model.predict(obs)
-    obs, _, _ ,_ = env.step(action)
+    obs, _, _, _ = env.step(action)
     img = env.render(mode='rgb_array')  # TODO
 
-imageio.mimwrite('autonmscar_dqn.gif', [np.array(img[0]) for i, img in enumerate(images) if i%2 == 0], fps=29)
+kwargs = {'fps': 29.0}
+imageio.mimwrite('autonmscar_dqn.gif', [np.array(
+    img[0]) for i, img in enumerate(images) if i % 2 == 0], 'GIF-PIL', **kwargs)

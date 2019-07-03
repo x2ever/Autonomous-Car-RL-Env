@@ -4,6 +4,7 @@ from gym.utils import seeding
 import numpy as np
 import pygame
 import os
+import PIL.Image as pilimg
 
 from gym_autonmscar.envs.autonomous_car_simulator.Brain import Brain
 from gym_autonmscar.envs.autonomous_car_simulator.LiDAR import LiDAR
@@ -92,9 +93,8 @@ class AutonomousCarEnv(gym.Env):
     def render(self, mode='human', close=False):
         self.game.render()
         if mode == 'rgb_array':
-            self.game.screen.lock()
-            arr = np.array(pygame.surfarray.array3d(self.game.screen), dtype=np.uint8)  # TODO
-            self.game.screen.unlock()
+            pygame.image.save(self.game.screen, "temp.jpg")
+            arr = np.array(pilimg.open("temp.jpg"))
             return arr
 
     def up(self, num: int = 1):
