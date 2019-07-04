@@ -1,20 +1,21 @@
 import os
-import datetime
 import numpy
 import gym
 import gym_autonmscar
-from stable_baselines.common.vec_env import DummyVecEnv
-from stable_baselines.deepq.policies import MlpPolicy
+
+from stable_baselines.ddpg.policies import LnMlpPolicy
 from stable_baselines.bench import Monitor
 from stable_baselines.results_plotter import load_results, ts2xy
-from stable_baselines import DQN
+from stable_baselines import DDPG
+from stable_baselines.ddpg import AdaptiveParamNoiseSpec
 
-TIMESTEPS = 10000001
+
+TIMESTEPS = int(1e7) + 1
 
 best_mean_reward = -numpy.inf
 n_steps = 0
-log_directory = os.path.dirname(os.path.realpath(__file__)) + "/log/"
-model_directory = os.path.dirname(os.path.realpath(__file__)) + "/models/"
+log_directory = os.path.dirname(os.path.realpath(__file__)) + "/ddpg-log/"
+model_directory = os.path.dirname(os.path.realpath(__file__)) + "/ddpg-models/"
 
 
 def callback(_locals, _globals):
@@ -34,9 +35,9 @@ def callback(_locals, _globals):
 
         if mean_reward > best_mean_reward:
             best_mean_reward = mean_reward
-            print("Saving new best model")
+            print("> Saving new best model")
             _locals['self'].save(
-                model_directory + 'dqn-model_' + str(n_steps + 1) + '.pkl')
+                model_directory + 'ddpg-model_' + str(n_steps + 1) + '.pkl')
     n_steps += 1
     return True
 
@@ -45,25 +46,20 @@ if __name__ == "__main__":
     os.makedirs(log_directory, exist_ok=True)
     os.makedirs(model_directory, exist_ok=True)
 
-    env = gym.make('autonmscar-v0')
+    env = gym.make('autonmscarContinuous-v0')
     env = Monitor(env, log_directory, allow_early_resets=True)
-    env = DummyVecEnv([lambda: env])
 
-    model = DQN(
+    param_noise = AdaptiveParamNoiseSpec(
+        initial_stddev=0.1, desired_action_stddev=0.1)
+    model = DDPG(
         env=env,
-        policy=MlpPolicy,
+        policy=LnMlpPolicy,
+        param_noise=param_noise,
         verbose=1,
-        tensorboard_log="./dqn_tensorboard/",
+        tensorboard_log="./ddpg_tensorboard/",
     )
 
     model.learn(
         total_timesteps=TIMESTEPS,
         callback=callback
     )
-
-    # saving the final model with the time suffix
-    # print("save the model")
-    # basename = "dqn-model"
-    # suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
-    # model_filename = "_".join([model_directory, basename, suffix])
-    # model.save(model_filename)
