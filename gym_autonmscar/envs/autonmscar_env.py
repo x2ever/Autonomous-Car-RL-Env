@@ -4,6 +4,7 @@ from gym.utils import seeding
 import numpy as np
 import pygame
 import os
+import PIL.Image as pilimg
 
 from gym_autonmscar.envs.autonomous_car_simulator.Brain import Brain
 from gym_autonmscar.envs.autonomous_car_simulator.LiDAR import LiDAR
@@ -15,7 +16,7 @@ from gym_autonmscar.envs.autonomous_car_simulator.Car import CarSprite
 
 
 class AutonomousCarEnv(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {'render.modes': ['human', 'rgb_array']}
 
     continuous = False
 
@@ -49,7 +50,7 @@ class AutonomousCarEnv(gym.Env):
                 self.right()
             elif action == 3:
                 self.left()
-        obs, result = self.game.step()
+        obs = self.game.step()
 
         # rewards
         reward = 0
@@ -57,8 +58,9 @@ class AutonomousCarEnv(gym.Env):
             # print("Fail")
             reward -= 10
         elif self.game.win_condition == True:  # when getting the trophy
-            print("Success, result: " + str(result))
-            reward += 100 / result + 1000
+            print("Success, result: " + str(self.game.seconds))
+            if self.game.seconds != 0:
+                reward += 100 / self.game.seconds + 1000
         else:  # moving is the reward
             # speed range: -10 to 10
             reward += self.game.car.speed
@@ -101,6 +103,12 @@ class AutonomousCarEnv(gym.Env):
 
     def render(self, mode='human', close=False):
         self.game.render()
+        if mode == 'rgb_array':
+            pygame.image.save(self.game.screen, "temp.jpg")
+            arr = np.array(pilimg.open("temp.jpg"))
+            if os.path.exists("temp.jpg"):
+                os.remove("temp.jpg")
+            return arr
 
     def up(self, num: int = 1):
         for i in range(num):
