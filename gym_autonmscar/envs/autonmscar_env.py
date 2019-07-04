@@ -106,6 +106,8 @@ class AutonomousCarEnv(gym.Env):
         if mode == 'rgb_array':
             pygame.image.save(self.game.screen, "temp.jpg")
             arr = np.array(pilimg.open("temp.jpg"))
+            if os.path.exists("temp.jpg"):
+                os.remove("temp.jpg")
             return arr
 
     def up(self, num: int = 1):
