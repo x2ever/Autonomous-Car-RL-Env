@@ -37,6 +37,13 @@ You can check the graph using `tensorboard`.
 $ tensorboard --logdir ./dqn_tensorboard/
 ```
 
+### Make `.gif` of training result
+
+`import imageio`, and using `'rgb_array'` mode when to render the environment. `imageio.mimsave()` will make an animated gif file of training result. You can see the example code in `train/gif.py`.
+
+![ddpg training result example](./train/ddpg-result-gif/atnms-ddpg_252000.gif)
+[DDPG training result example]
+
 ## Details
 
 ### Observation space
@@ -54,6 +61,30 @@ The action space is 4 dimensions.
 
 * up, down, left, right
 
+#### Discrete
+
+The agent has to choose one action each time step. (ex. DQN)
+
+##### Usage of discrete action space env
+
+```python
+import gym
+import gym_autonmscar
+env = gym.make('autonmscar-v0')
+```
+
+#### Continuous
+
+The agent can guess the continuous rational number values in the range of [-1, 1] in 4 dimensions each time step, then the environment changes the four values as the probability of choosing one of four actions. (ex. DDPG)
+
+##### Usage of continuous action space env
+
+```python
+import gym
+import gym_autonmscar
+env = gym.make('autonmscarContinuous-v0')
+```
+
 ### Rewards
 
 1. When colliding the wall
@@ -70,3 +101,4 @@ The action space is 4 dimensions.
 
 * [Making a custom environment in gym](https://medium.com/@apoddar573/making-your-own-custom-environment-in-gym-c3b65ff8cdaa)
 * [`gym-worm`](https://github.com/kwk2696/gym-worm)
+* [Stable baselines documentation: Examples](https://stable-baselines.readthedocs.io/en/master/guide/examples.html)
